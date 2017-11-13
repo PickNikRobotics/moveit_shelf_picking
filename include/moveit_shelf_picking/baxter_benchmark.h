@@ -70,14 +70,14 @@ namespace moveit_shelf_picking
 {
 static const std::size_t NUM_VISUALS = 6;
 
-class BoltBaxter : public bolt_moveit::MoveItBase
+class BaxterBenchmark : public bolt_moveit::MoveItBase
 {
 public:
   /** \brief Constructor */
-  BoltBaxter(const std::string& hostname, const std::string& package_path);
+  BaxterBenchmark(const std::string& package_path);
 
   /** \brief Destructor */
-  ~BoltBaxter();
+  ~BaxterBenchmark();
 
   /** \brief Clear previous planner stuff */
   void reset(std::size_t indent);
@@ -341,8 +341,8 @@ public:
 };  // end class
 
 // Create boost pointers for this class
-typedef std::shared_ptr<BoltBaxter> BoltBaxterPtr;
-typedef std::shared_ptr<const BoltBaxter> BoltBaxterConstPtr;
+typedef std::shared_ptr<BaxterBenchmark> BaxterBenchmarkPtr;
+typedef std::shared_ptr<const BaxterBenchmark> BaxterBenchmarkConstPtr;
 
 }  // namespace moveit_shelf_picking
 

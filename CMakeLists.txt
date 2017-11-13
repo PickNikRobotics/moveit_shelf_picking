@@ -41,7 +41,7 @@ include_directories(
 
 # Library
 add_library(${PROJECT_NAME}
-  src/moveit_shelf_picking.cpp
+  src/baxter_benchmark.cpp
 )
 # Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
@@ -51,14 +51,14 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Main program
-add_executable(${PROJECT_NAME}_moveit_shelf_picking_main
-  src/moveit_shelf_picking_main.cpp
+add_executable(${PROJECT_NAME}_baxter_benchmark_main
+  src/baxter_benchmark_main.cpp
 )
 # Rename C++ executable without namespace
-set_target_properties(${PROJECT_NAME}_moveit_shelf_picking_main
-  PROPERTIES OUTPUT_NAME moveit_shelf_picking_main PREFIX "")
+set_target_properties(${PROJECT_NAME}_baxter_benchmark_main
+  PROPERTIES OUTPUT_NAME baxter_benchmark_main PREFIX "")
 # Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_moveit_shelf_picking_main
+target_link_libraries(${PROJECT_NAME}_baxter_benchmark_main
   ${PROJECT_NAME}
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
@@ -76,7 +76,7 @@ roslint_cpp()
 #############
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_moveit_shelf_picking_main
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_baxter_benchmark_main
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
