@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>moveit_shelf_picking</name>
+  <version>0.1.0</version>
+  <description>Benchmarking suite for dual arm manipulation</description>
+
+  <maintainer email="davetcoleman@gmail.com">Dave Coleman</maintainer>
+  <author email="davetcoleman@gmail.com">Dave Coleman</author>
+
+  <license>BSD</license>
+
+  <url type="website">https://github.com/davetcoleman/moveit_shelf_picking</url>
+  <url type="butracker">https://github.com/davetcoleman/moveit_shelf_picking/issues</url>
+  <url type="repository">https://github.com/davetcoleman/moveit_shelf_picking/</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>bolt_moveit</depend>
+  <depend>roslint</depend>
+  <depend>ompl</depend>
+  <depend>geometric_shapes</depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>rosunit</test_depend>
+
+  <export>
+  </export>
+</package>

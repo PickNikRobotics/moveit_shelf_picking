@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find baxter_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+    <arg name="robot_description" value="baxter/robot_description"/>
+  </include>
+
+  <!-- GDB Debug Arguments -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix"
+       value="gdb -x $(find moveit_shelf_picking)/launch/debug_settings.gdb --ex run --args" />
+
+  <!-- Main process -->
+  <node name="baxter" pkg="moveit_shelf_picking" type="moveit_shelf_picking_main" respawn="false"
+    launch-prefix="$(arg launch_prefix)" output="screen">
+
+    <!-- Robot-specific settings -->
+    <rosparam command="load" file="$(find moveit_shelf_picking)/config/config_baxter.yaml"/>
+  </node>
+</launch>

@@ -1,0 +1,322 @@
+# ====================================================
+# Main program
+moveit_shelf_picking:
+
+  # Pre-processing Benchmark
+  # --------------------------------------------------
+  # load_database_version: exp
+  # penetration_start: -0.05
+  # num_problems: 50
+
+  # experiment_names: [BoltDR]
+  # planners: [BoltRandom]
+  # log_file_name: log_BoltDR.csv
+
+  # experiment_names: [BoltSR-ERRT]
+  # planners: [BoltERRTConnect]
+  # log_file_name: log_BoltSR-ERRT.csv
+
+  # experiment_names: [BoltSR]
+  # planners: [BoltRRTConnect]
+  # log_file_name: log_BoltSR.csv
+
+  # No Preprocessing Benchmark
+  # --------------------------------------------------
+  load_database_version: np
+  penetration_start: -0.05
+  num_problems: 50
+
+  # experiment_names: [Thunder]
+  # planners: [BoltRRTConnect]
+  # log_file_name: log_thunder_errt.csv
+
+  # experiment_names: [Thunder-ERRT]
+  # planners: [BoltERRTConnect]
+  # log_file_name: log_thunder_errt.csv
+
+  experiment_names: [Lightning, Thunder-SPARS]
+  planners: [Lightning, Thunder]
+  log_file_name: log_Lightning_Thunder-SPARS.csv
+
+
+  # Single Query Benchmark
+  # ---------------------------------------
+  # planners: [RRTConnect, BiEST, LazyPRM, LazyRRT, PRM, RRT]
+  # load_database_version: NA
+  # penetration_start: -0.05
+  # log_file_name: log_single_query.csv
+  # num_problems: 50
+
+  # planner types
+  #planners: [BoltRandom, BoltRRTConnect, BoltERRTConnect, Thunder, Lightning, RRTConnect, BiEST, LazyPRM, LazyRRT, SPARStwo]
+
+  # run mode
+  auto_run: true # do not wait to move interactive markers. note: 'autonomous' setting must be 'false'
+  benchmark_performance: false
+  display_disjoint_sets: false # connected components
+  display_database: false
+  eliminate_dense_disjoint_sets: false
+  check_valid_vertices: false # Collision check every vertex in sparse graph and return error if invalid found
+  save_imarkers_to_file: false
+  view_imarkers_from_file: false
+  headless: false
+
+  # create sparse graph
+  load_spars: true
+  create_spars: false
+  continue_spars: false # even if a file has been saved, randomly sample for more coverage
+  sweep_spars_maps: true
+  sweep_map_start: 1 # Base 1, not 0
+  sweep_map_end: 1 # Base 1, not 0
+
+  # mirror graph
+  mirror_graph: false # take a single-arm graph and turn into dual-arm graph
+  opposite_arm_name: left_arm_minus_one
+  both_arms_group_name: both_arms
+
+  # run type
+  run_problems: true # do plans?
+  problem_type: 0 # 0 - random, 1 - imarkers, 2 - imarker goal list, 3 - stdf, 4 - ik
+
+  # Goal
+  imarker_goal_list: problems/benchmark1.moveit
+  # Start
+  imarker_start_list: problems/benchmark1.moveit.start
+
+  # scene
+  scene_type: 1 # 0 - work cell (office), 1 - amazon
+  distance_to_shelf: 1.3
+  use_shelf_noise: true # keep shelf location constant or randomize it
+  bin_height: -0.15
+  num_rows: 4
+  test_var: -0.1
+  #penetration_start: -0.05 # default value
+
+  # execution
+  connect_to_hardware: false
+  velocity_scaling_factor: 1.0
+
+  planning_time: 600 # 10 minutes
+
+  # robot setup
+  planning_group_name: both_arms
+  arm_jmgs: [left_arm, right_arm]
+  ee_tip_links: [left_gripper_tip, right_gripper_tip]
+
+  # other
+  use_task_planning: false  # cartesian hybrid planning
+  post_processing: true
+  post_processing_interval: 1 # how often (in runs) to adjust the graphs
+  seed_random: true
+  use_logging: true # write to file log info
+  collision_checking_enabled: true
+
+  # debugging
+  visualize:
+    display_database: false # does not display database as it is built, however
+    start_goal_states: true
+    interpolated_traj: true
+    time_between_plans: 0
+    database_every_plan: false
+  verbose:
+    print_trajectory: false
+    verbose: false
+
+# ====================================================
+sparse_mirror:
+  verbose:
+    verbose: true
+
+# ====================================================
+sparse_generator:
+# VAR1
+  fourth_criteria_after_failures: 100000 # mode change to 4th criteria after this many failures
+  terminate_after_failures: 100000 # total failures, including 4th criteria
+# VAR3
+  use_discretized_samples: false
+  use_random_samples: true
+  verify_graph_properties: false
+  verbose:
+    verbose: true
+    guarantees: true # show data about the optimiality guarantees verification
+    find_graph_neighbors: false
+    criteria: false
+  visualize:
+    sampling: false
+
+# ====================================================
+sparse_criteria:
+  #sparse_delta_fraction: 0.4
+  #sparse_delta_fraction: 0.45
+  sparse_delta_fraction: 1.0
+  #sparse_delta_fraction: 0.5
+  sparse_delta_fraction_secondary: 0.1
+  penetration_overlap_fraction: 0.01
+  near_sample_points_multiple: 2 # multiply this times number of dimensions
+# VAR4
+  stretch_factor: 4 # 0 means auto set
+  use_l2_norm: false # instead use L1
+  use_connectivy_criteria: true # main feature
+  use_quality_criteria: false # 4th criteria
+# VAR2
+  use_clear_edges_near_vertex: false # Methods to Reduce Outdated/Redundant Edges
+# VAR5
+  use_direct_connectivity_criteria: false # Add direct edge instead of also vertex
+# VAR6
+  use_smoothed_path_improvement_rule: true # Improving the Smoothed Quality Path Criteria
+# VAR7
+  use_edge_improvement_rule: true # Modification of Quality Criteria for $L_1$ Space
+  verbose:
+    added_reason: false # debug criteria for adding vertices & edges
+    criteria: false # all criteria except 4th (quality)
+    quality: false # 4th criteria
+    quality_max_spanner: false
+    remove_close: false
+  visualize:
+    attempted_states: false # show the current sampled state before its added
+    connectivity: false # show states in different connected components for connectivity criteria
+    quality_criteria: false # window 5
+    quality_criteria_close_reps: false # window 3
+    quality_criteria_sampler: false
+    quality_criteria_astar: false # show results of astar test
+    remove_close_vertices: false
+
+# ====================================================
+sparse_graph:
+  save_enabled: true
+  super_debug: false # run more checks and tests that slow down speed
+  #obstacle_clearance: 0.0035 # UR5: max before gripper piece is in collision
+  obstacle_clearance: 0 # Baxter: max before gripper piece is in collision
+  verbose:
+    add: false # debug when addVertex() and addEdge() are called
+    search: false
+    visualize: false
+  visualize:
+    sparse_graph: false
+    sparse_graph_speed: 0 #0.000001 # if 0, does not animate but only single image draw
+    database_vertices: true # must have sparse_graph enabled
+    database_edges: true # must have sparse_graph enabled
+    database_coverage: false # the grey circles around vertices, must have sparse_graph enabled
+    projection: false # show the joint space in a nD grid
+    graph_after_loading: false # show graph after loading from file (can be slow!)
+    quality_path_smoothing: false # simplification
+    astar: false # show node expansions and openings
+    astar_speed: 0.01 # how many seconds to wait between each visualization
+    voronoi_diagram: false
+    voronoi_diagram_animated: false
+
+# ====================================================
+sparse_smoother:
+  visualize:
+    quality_path_smoothing: false # show smoothing simplification
+
+# ====================================================
+vertex_discretizer:
+  verbose:
+    verbose: true
+    thread: false # output within threading (very verbose)
+  visualize:
+    grid_generation: false
+    grid_generation_wait: false
+
+# ====================================================
+candidate_queue:
+  verbose:
+    verbose: false
+    neighbor: false
+    clear: false
+    queue_full: false
+    queue_empty: false
+    thread: false
+
+# ====================================================
+task_graph:
+  num_neighbors_connect_to_cart: 10
+  verbose:
+    verbose: false
+    add: false # debug when addVertex() and addEdge() are called
+    search: false
+    visualize: false
+    heuristic: false
+    clear: false
+    generate_task: false
+  visualize:
+    task_graph: false
+    task_graph_speed: 0.001 # if 0, does not animate but only single image draw
+    database_vertices: true
+    database_edges: true
+    astar: false # show node expansions and openings
+    astar_speed: 0.01 # how many seconds to wait between each visualization
+
+# ====================================================
+debug_interface:
+  autonomous: false
+  full_autonomous: false
+
+# ====================================================
+bolt_planner:
+  smoothing_enabled: true
+  verbose:
+    verbose: false
+    nearest_neighbor: false
+    collision_check: false
+    sampling: false
+    criteria: false
+  visualize:
+    raw_trajectory: false
+    smooth_trajectory: false
+    wait: false
+    start_goal: false
+    lazy_collision_check: false
+    each_solution_step: false
+    start_goal_unconnected: false
+    sampling: false
+
+# ====================================================
+cart_path_planner:
+  ik_solver:
+    discretization: 6 # 0.785 # pi / 4
+  trajectory:
+    discretization: 0.005 # how much space, in meters, between trajectory points
+    timing: 0.3 # time allowed between each Cartesian point, e.g. discretization for velocity
+  tolerance:
+    pi_fraction_increment: 0.2 # 2xPI / this number = number of steps to divide each dimension by
+    roll: 0.314 # pi/10
+    pitch: 0.314 # pi/10
+    # roll: 0.628 # pi/5
+    # pitch: 0.628 # pi/5
+    yaw: 0 # pi
+  hybrid_rand_factor: 0 # number of times to randomly add the two arm trajectories together. 0 means to use all combinations
+  verbose: false
+  visualize:
+    all_cart_poses: false # show the markers for each pose location
+    all_cart_poses_individual: false # show the markers one by one for each pose location
+    all_solutions: false # show each redundant IK solution along trajectory
+    all_solutions_sleep: 0.1 # time between each solution for viewing
+    rejected_edges_due_to_timing: false
+    combined_solutions: false # show the robot state for each combined pose
+    combined_solutions_sleep: 0.001 # show the robot state for each combined pose
+    rejected_states: false # show invalid collision checks
+
+# ====================================================
+# Interface for publishing joint/cartesian commands to the low level controllers
+execution_interface:
+  #command_mode: joint_publisher # method for publishing commands from this node to low level controller
+  command_mode: joint_execution_manager
+  cartesian_command_topic: /baxter/cartesian_controller/cartesian_command # command output from this node
+  joint_trajectory_topic: /baxter/cartesian_controller/command # command output from this node
+  save_traj_to_file: false # debug mode for creating a CSV for use with Matlab
+  save_traj_to_file_path: /home/dave/ros/current/ws_swri/src/trajectory_data/ # debug
+  visualize_trajectory_line: false # show in RViz a series of markers visualizing path
+  visualize_trajectory_path: false # show in RViz the robot moving on the trajectory path
+  check_for_waypoint_jumps: false # ensure that any trajectory that is published does not have huge discontinuties in joint space
+
+# MoveIt Boilerplate Base Functionality
+moveit_base:
+  joint_state_topic: /robot/joint_states # location to recieve updates of the robot's pose
+  joint_model_group: both_arms # the main planning group to control
+  planning_scene_topic: /swri/planning_scene  # topic for communicating the collision obj in the env with other nodes
+  rviz:
+    markers_topic: /baxter/markers
+    robot_state_topic: /baxter/robot_state
+    trajectory_topic: /baxter/display_trajectory
