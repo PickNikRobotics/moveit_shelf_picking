@@ -14,7 +14,7 @@
        value="gdb -x $(find moveit_shelf_picking)/launch/debug_settings.gdb --ex run --args" />
 
   <!-- Main process -->
-  <node name="baxter" pkg="moveit_shelf_picking" type="moveit_shelf_picking_main" respawn="false"
+  <node name="baxter_benchmark" pkg="moveit_shelf_picking" type="baxter_benchmark_main" respawn="false"
     launch-prefix="$(arg launch_prefix)" output="screen">
 
     <!-- Robot-specific settings -->

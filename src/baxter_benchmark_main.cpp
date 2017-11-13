@@ -37,7 +37,7 @@
 */
 
 // this package
-#include <moveit_shelf_picking/moveit_shelf_picking.h>
+#include <moveit_shelf_picking/baxter_benchmark.h>
 
 // --------------------------------------------------
 // Show backtrace on exception
@@ -74,15 +74,10 @@ int main(int argc, char **argv)
   ros::AsyncSpinner spinner(2);
   spinner.start();
 
-  // Get name of this computer
-  char hostname[1024];
-  gethostname(hostname, 1024);
-  ROS_INFO_STREAM_NAMED("main", "Hostname: " << hostname);
-
   const std::string package_path = ros::package::getPath("moveit_shelf_picking");
 
   // Initialize main class
-  moveit_shelf_picking::BaxterBenchmark demo(hostname, package_path);
+  moveit_shelf_picking::BaxterBenchmark demo(package_path);
 
   // Shutdown
   ROS_INFO_STREAM_NAMED("main", "Shutting down.");
