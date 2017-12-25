@@ -15,7 +15,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>bolt_moveit</depend>
+  <depend>moveit_boilerplate</depend>
   <depend>roslint</depend>
   <depend>ompl</depend>
   <depend>geometric_shapes</depend>

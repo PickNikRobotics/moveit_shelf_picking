@@ -42,7 +42,7 @@
 // ROS
 #include <ros/ros.h>
 
-#include <bolt_moveit/moveit_base.h>
+#include <moveit_boilerplate/moveit_base.h>
 
 // MoveIt
 #include <moveit/planning_interface/planning_interface.h>
@@ -55,7 +55,7 @@ namespace moveit_shelf_picking
 {
 static const std::size_t NUM_VISUALS = 6;
 
-class BaxterBenchmark : public bolt_moveit::MoveItBase
+class BaxterBenchmark : public moveit_boilerplate::MoveItBase
 {
 public:
   /** \brief Constructor */

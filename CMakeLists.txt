@@ -5,7 +5,7 @@ project(moveit_shelf_picking)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-  bolt_moveit
+  moveit_boilerplate
   roslint
 )
 
@@ -14,7 +14,7 @@ find_package(Boost REQUIRED serialization)
 
 catkin_package(
   CATKIN_DEPENDS
-    bolt_moveit
+    moveit_boilerplate
     geometric_shapes
   INCLUDE_DIRS
     include
