@@ -7,3 +7,11 @@
     local-name: moveit_boilerplate
     uri: git@github.com:davetcoleman/moveit_boilerplate.git
     version: kinetic-devel
+ - git:
+    local-name: rviz_visual_tools
+    uri: git@github.com:PickNikRobotics/rviz_visual_tools.git
+    version: kinetic-devel
+ - git:
+    local-name: moveit_visual_tools
+    uri: git@github.com:ros-planning/moveit_visual_tools.git
+    version: kinetic-devel

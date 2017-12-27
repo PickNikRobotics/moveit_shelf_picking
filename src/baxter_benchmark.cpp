@@ -155,7 +155,7 @@ void BaxterBenchmark::loadVisualTools(std::size_t indent)
   {
     const std::string base_frame = "/world_visual" + std::to_string(i);
     const std::string marker_topic = namesp + "/ompl_visual" + std::to_string(i);
-    MoveItVisualToolsPtr moveit_visual = std::make_shared<MoveItVisualTools>(base_frame, marker_topic, psm_);
+    MoveItVisualToolsPtr moveit_visual = std::make_shared<MoveItVisualTools>(base_frame, marker_topic, planning_scene_monitor_);
     moveit_visual->loadMarkerPub(false);
     moveit_visual->setManualSceneUpdating(true);
     moveit_visual->setGlobalScale(0.8);
@@ -295,7 +295,7 @@ void BaxterBenchmark::deleteAllMarkers(std::size_t indent)
 
 bool BaxterBenchmark::getRandomState(moveit::core::RobotStatePtr &robot_state)
 {
-  planning_scene_monitor::LockedPlanningSceneRO planning_scene(psm_);
+  planning_scene_monitor::LockedPlanningSceneRO planning_scene(planning_scene_monitor_);
 
   std::size_t indent = 0;
   static const std::size_t MAX_ATTEMPTS = 1000;
@@ -337,7 +337,7 @@ void BaxterBenchmark::loadScene(std::size_t indent)
 
   // Append to allowed collision matrix
   {
-    planning_scene_monitor::LockedPlanningSceneRW planning_scene(psm_);  // Read/write lock
+    planning_scene_monitor::LockedPlanningSceneRW planning_scene(planning_scene_monitor_);  // Read/write lock
     collision_detection::AllowedCollisionMatrix &collision_matrix = planning_scene->getAllowedCollisionMatrixNonConst();
     collision_matrix.setEntry("wall", "pedestal", true);
   }
@@ -345,7 +345,7 @@ void BaxterBenchmark::loadScene(std::size_t indent)
 
 void BaxterBenchmark::loadOfficeScene(std::size_t indent)
 {
-  // psm_->updateFrameTransforms();
+  // planning_scene_monitor_->updateFrameTransforms();
 
   // const double table_height = -0.77 * baxter_torso_height_;
   const double table_height = -0.75 * baxter_torso_height_;
@@ -563,7 +563,7 @@ bool BaxterBenchmark::setSingleGoalFromIMarker(std::size_t indent)
   // // TODO: delete (temporary)
   // imarker_goal_->publishRobotState();
 
-  // planning_scene_monitor::LockedPlanningSceneRO planning_scene(psm_);  // Read only lock
+  // planning_scene_monitor::LockedPlanningSceneRO planning_scene(planning_scene_monitor_);  // Read only lock
   // if (!planning_scene->isStateValid(*imarker_goal_->getRobotState(), "", true))
   // {
   //   ROS_WARN_STREAM("Invalid goal state MoveIt! 1");
@@ -580,7 +580,7 @@ bool BaxterBenchmark::setSingleGoalFromIMarker(std::size_t indent)
   // collision_request_simple_verbose.group_name = planning_group_name_;
   // collision_request_simple_verbose.verbose = true;
   // collision_detection::CollisionResult res;
-  // psm_->getPlanningScene()->checkCollision(collision_request_simple_verbose, res, *imarker_goal_->getRobotState());
+  // planning_scene_monitor_->getPlanningScene()->checkCollision(collision_request_simple_verbose, res, *imarker_goal_->getRobotState());
   // if (res.collision)
   // {
   //   ROS_WARN_STREAM("Invalid goal state OMPL 1");

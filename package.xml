@@ -19,6 +19,7 @@
   <depend>roslint</depend>
   <depend>ompl</depend>
   <depend>geometric_shapes</depend>
+  <depend>baxter_moveit_config</depend>
 
   <test_depend>rostest</test_depend>
   <test_depend>rosunit</test_depend>
