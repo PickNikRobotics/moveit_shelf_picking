@@ -7,7 +7,7 @@
   <maintainer email="davetcoleman@gmail.com">Dave Coleman</maintainer>
   <author email="davetcoleman@gmail.com">Dave Coleman</author>
 
-  <license>BSD</license>
+  <license>BSD-3-Clause</license>
 
   <url type="website">https://github.com/davetcoleman/moveit_shelf_picking</url>
   <url type="butracker">https://github.com/davetcoleman/moveit_shelf_picking/issues</url>
